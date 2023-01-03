@@ -34,11 +34,19 @@ class ViewController: UIViewController {
             
             let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
             newPicture.addGestureRecognizer(tap)
+            let swipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe(_ :)))
+            swipe.direction = .up
+            newPicture.addGestureRecognizer(swipe)
             
         } else {
             nextIndex = 0
             showNextPicture()
         }
+    }
+    @objc func handleSwipe(_ sender: UISwipeGestureRecognizer) {
+        guard !isActive else { return }
+        hidePicture()
+        showNextPicture()
     }
     
     @objc func handleTap() {
@@ -94,6 +102,12 @@ class ViewController: UIViewController {
         
         UIView.animate(withDuration: 0.4) {
             imageView.center = self.view.center
+        }
+    }
+    
+    func hidePicture() {
+        UIView.animate(withDuration: 0.4) {
+            self.currentPicture?.frame.origin.y = -self.originalSize
         }
     }
     
