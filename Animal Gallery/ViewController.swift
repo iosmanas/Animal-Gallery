@@ -45,7 +45,7 @@ class ViewController: UIViewController {
     }
     @objc func handleSwipe(_ sender: UISwipeGestureRecognizer) {
         guard !isActive else { return }
-        hidePicture()
+        hidePicture(currentPicture!)
         showNextPicture()
     }
     
@@ -105,11 +105,13 @@ class ViewController: UIViewController {
         }
     }
     
-    func hidePicture() {
-        UIView.animate(withDuration: 0.4) {
-            self.currentPicture?.frame.origin.y = -self.originalSize
+    func hidePicture(_ imageView: UIImageView) {
+            UIView.animate(withDuration: 0.4, animations: {
+                self.currentPicture?.frame.origin.y = -self.originalSize
+            }) { (_) in
+                imageView.removeFromSuperview()
+            }
         }
-    }
     
 }
 
